@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="UTF-8" />
+   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+
+   <title id="bottitlehead"></title>
+   <script src="https://kit.fontawesome.com/1c9144b004.js" crossorigin="anonymous"></script>
+   
+   <link rel="icon" href="/assets/logo.png" type="image/png">
+   
+   <meta id="ogtitlehead" name="og:title" content="">
+   <meta id="sitenamehead" property="og:site_name" content="" />
+   <meta id="descriptionhead" name="og:description" content="">
+   <meta name="og:keywords" content="Hydrogen Studio, Hydrogen Bot, Hydrogen, hydrogenstudio.xyz, hydrotune, hydrobot, hydro">
+   <meta id="authorhead" name="author" content="">
+   <meta id="iconhead" property="og:image" content="">
+   <meta id="urlhead" property="og:url" content="">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+   <link href="https://hydrogenbot.xyz/assets/bootstrap.min.css" rel="stylesheet">
+   <link href="https://hydrogenbot.xyz/assets/animate.min.css" rel="stylesheet">
+   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+   <link href="https://hydrogenbot.xyz/assets/venobox.css" rel="stylesheet">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js" rel="stylesheet">
+   <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+   <!-- Main CSS File -->
+ 
+   <!-- Custom-Scroll CSS File -->
+   <link href="https://hydrogenbot.xyz/assets/custom-scroll.css" rel="stylesheet">
+ 
+   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js" async defer></script>
+   
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.8.2.js"></script>
+   </head>
+ </head>
+ <body>
+    <script src="https://fb.me/react-0.14.0.min.js"></script>
+    <script src="https://fb.me/react-dom-0.14.0.min.js"></script>
+    <script src="@Url.Content(" ~/Scripts/showdown.min.js ")"></script>
+    <script src="@Url.Content(" ~/Scripts/Tutorial.jsx ")"></script>
+    <header id="header">
+        <div class="container">
+          <div class="hydrogen-logo">
+    
+          </div>
+          <nav id="nav-menu-container">
+            <ul class="nav-menu">
+              <div class="form-inline my-2 my-lg-0" style="text-align: center; position: absolute; left: 50px; top: 5px;">
+                <input id="search-box" style="background-color: lightblue; height: 37px;" class="form-control" type="text" placeholder="Search" autocomplete="off">
+                
+                <img id="search-btn" style="height: 37px;" src="/search.png" type="button"></img>
+            </div>
+              <li><a href="/">Home</a></li>
+              <li><a href="/bots/all">Bots</a></li>
+              <li><a href="https://api.hydrogenbots.club">API</a></li>
+              <li id="discordli"></li>
+              <li id="addbotli"></li>
+              <li id="logoutli"></li>
+              <li id="loginli"><a href="{Your Website Hostname}login"><img src="https://hydrogenbot.xyz/assets/img/discord.png" alt="user" class="rounded-circle" width="25" /> Login</a></li>
+              <li id="queueli"></li>
+             </ul>
+          </nav><!-- #nav-menu-container -->
+        </div>
+      </header>
+
+      
+<script>
+  $(function (params) {
+      const searchBtn = $("#search-btn");
+      searchBtn.click(function (event) {
+          event.preventDefault();
+          const searchBox = $("#search-box");
+          const searchTerm = searchBox.val();
+          if(searchTerm) {
+              searchBtn.addClass("disabled");
+              location.replace(`/search?term=${searchTerm}`);
+          }
+      });
+  });
+  </script>
+
+<section id="hero">
+<div class="hero-container">
+  
+  <img id="profilepic" style="border-radius: 50%;" width="85px" height="85px">
+  <br />
+  <h4 id="status"></h4>
+  <a id="guild-count"></a>
+  <h1 id="nametitle"></h1>
+  <h4 style="color: white;" id="shortdescription"></h4>
+  <h5 id="prefix" style="color: lightblue;"></h5>
+  
+  <div class="buttons" id="buttons">
+    
+    </div>
+    <br>
+  <div class="buttons" id="apitoken">
+  </div>
+</div>
+</section>
+
+<!-- <hr style="border-top: 1px solid lightblue;"> -->
+<br />
+
+<home class="services">
+    <div style="height: auto; position: relative; left: 12.5%; border: 1px solid lightblue; width: 75%;" id="longdescription">
+
+    </div>
+</home>
+<br />
+<br />
+  <!-- Footer -->
+<footer style="background-color: lightblue;">
+
+<div class="credits">
+  <center><span href="https://hydrogenbot.xyz">Copyright &copy; 2020 Hydrogen Studio | Hydrogen&trade;, All Rights Reserved</span></center>
+</div>
+<!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+ </body>
+
+<script>
+  var urlParams = new URLSearchParams(window.location.search);
+  function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+function eraseCookie(name) {   
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function logout(){
+   eraseCookie("token")
+   window.location.reload()
+}
+
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+window.onload = function(){
+
+
+  firebase.initializeApp({
+  apiKey: 'Your Firebase API Token',
+  authDomain: 'https://accounts.google.com/o/oauth2/auth',
+  projectId: 'hydrogen-bots-club'
+});
+
+var db = firebase.firestore();
+
+var docRef = db.collection("config").doc("config");
+
+
+    if(urlParams.has("editsuccess") === true){
+            alert("This bot has been successfully editted!")
+            window.location.href = '/bot/' + window.location.href.substring(30, window.location.href.length - 17) 
+            
+    }
+
+    if(urlParams.has("token") === false && getCookie("token") !== null && getCookie("token") !== ''){
+      console.log("here")
+      $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bearer ${getCookie("token")}`);
+  },
+  url: "https://discordapp.com/api/users/@me",
+  success: function(msg) {
+    document.getElementById("loginli").innerHTML = `<a href="/user?id=${msg.id}">${msg.username}</a>`
+    document.getElementById("logoutli").innerHTML = `<a onclick="logout()">Logout</a>`
+    document.getElementById("discordli").innerHTML = `<a target="_blank" href="{Your Website Hostname}discord">Join Discord</a>`
+    document.getElementById("addbotli").innerHTML = `<a href="{Your Website Hostname}bot/add">Add Your Bot</a>`
+    if(["539195184357965833", "437019658374348801", "720353244307783863", "432340835074572289"].includes(msg.id)){
+        document.getElementById("queueli").innerHTML = `<a href="/approval/queue">Approval Queue</a>`
+    }
+  }
+});
+    }else{
+
+
+    setCookie("token", urlParams.get("token"), 3)
+
+    $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bearer ${urlParams.get("token")}`);
+  },
+  url: "https://discordapp.com/api/users/@me",
+  success: function(msg) {
+    document.getElementById("loginli").innerHTML = `<a href="/user?id=${msg.id}">${msg.username}</a>`
+    document.getElementById("logoutli").innerHTML = `<a onclick="logout()">Logout</a>`
+    document.getElementById("discordli").innerHTML = `<a target="_blank" href="{Your Website Hostname}discord">Join Discord</a>`
+    document.getElementById("addbotli").innerHTML = `<a href="{Your Website Hostname}bot/add">Add Your Bot</a>`
+    
+    if(["539195184357965833", "437019658374348801", "720353244307783863", "432340835074572289"].includes(msg.id)){
+        document.getElementById("queueli").innerHTML = `<a href="/approval/queue">Approval Queue</a>`
+    }
+    window.history.pushState({}, document.title, "/bot/" + window.location.href.slice(30));
+  }
+});
+
+
+
+
+
+}
+
+docRef.get().then(function(conf) {
+      let confdata = conf.data()
+  $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bot ${confdata.token}`);
+  },
+  url: "https://discordapp.com/api/users/" + window.location.href.slice(30),
+  success: function(userbot) {
+    console.log(userbot.avatar)
+    let avataru;
+        
+    }
+  })
+})
+
+docRef.get().then(function(conf) {
+      let confdata = conf.data()
+$.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bot ${confdata.token}`);
+  },
+  url: "https://discordapp.com/api/users/" + window.location.href.slice(30),
+  success: function(userbot) {
+
+$.ajax({
+  type: "GET",
+  url: `/bots/${window.location.href.slice(30)}`,
+  success: function(msg) {
+    if(msg === null)return window.location.href = '/'
+      let bot = msg;
+
+      
+    var converter = new showdown.Converter()
+    let text      = bot.longdescription
+    let html      = converter.makeHtml(text);
+
+    document.getElementById("longdescription").innerHTML = `<center id="longdescriptioncenter">${html}</center>`
+      if(userbot.avatar === null){
+          avataru = '/assets/logo.png'
+        }else{
+          avataru = `https://cdn.discordapp.com/avatars/${userbot.id}/${userbot.avatar}.png`
+        }
+      document.getElementById("profilepic").src = avataru
+      document.getElementById("nametitle").innerHTML = userbot.username + "#" + userbot.discriminator
+      
+      
+    
+    document.getElementById("shortdescription").innerHTML = bot.description
+    $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bearer ${getCookie("token")}`);
+  },
+  url: "https://discordapp.com/api/users/@me",
+  success: function(usermsg) {
+    document.getElementById("bottitlehead").innerHTML = `${userbot.username} | Hydrogen Bots Club`
+    document.getElementById("ogtitlehead").content = `${userbot.username} | Hydrogen Bots Club`
+    document.getElementById("descriptionhead").content = bot.description
+    document.getElementById("sitenamehead").content = `${usermsg.username}`
+    document.getElementById("authorhead").content = `${usermsg.username}`
+    document.getElementById("iconhead").content = `https://cdn.discordapp.com/avatars/${userbot.id}/${userbot.avatar}.png`
+    document.getElementById("urlhead").content = `{Your Website Hostname}bot/${userbot.id}`
+    document.getElementById("buttons").innerHTML += `<a target="_blank" href="${bot.invite}" class="btn-options">Invite ${userbot.username}</a>`
+      if(bot.upvoted === undefined){
+        document.getElementById("buttons").innerHTML += `<a class="btn-options">Upvotes: 0</a>`
+      }else{
+        document.getElementById("buttons").innerHTML += `<a class="btn-options">Upvotes: ${bot.upvoted.length}</a>`
+      }
+      document.getElementById("prefix").innerHTML += `Bot Prefix: <code>${bot.prefix}</code>`
+    document.getElementById("buttons").innerHTML += `<a onclick="vote(${bot.id})" class="btn-options">Upvote This Bot</a>`
+
+    document.getElementById("buttons").innerHTML += `<a href="/user?id=${bot.authorid}" class="btn-options">${bot.authorusername}#${bot.authordiscriminator}</a>`
+    document.getElementById("buttons").innerHTML += `<a onclick="report()" class="btn-options">Report</a>`
+    
+    if(bot.certified === true){
+      document.getElementById("nametitle").innerHTML += `<a style="color: gold;"> ⭐</a>`
+    }
+    
+    if(bot.website !== undefined){
+        document.getElementById("buttons").innerHTML += `<a href="${bot.website}" class="btn-options">Website</a>`
+    }
+    if(bot.guildcount !== undefined){
+      
+      document.getElementById("guild-count").innerHTML += `<strong>${bot.guildcount.toLocaleString()}</strong> Guilds`
+    }else{
+      document.getElementById("guild-count").innerHTML += `<strong>N/A</strong> Guilds`
+    }
+
+    if(bot.shardcount !== undefined && bot.shardcount !== 0){
+      
+      document.getElementById("guild-count").innerHTML += ` with <strong>${bot.shardcount.toLocaleString()}</strong> shard(s)`
+    }
+    document.getElementById("buttons").innerHTML += `<a href="/tags?tag=${bot.tag}" class="btn-options">Tag: ${bot.tag}</a>`
+    if(["539195184357965833", "437019658374348801", "432340835074572289", bot.authorid].includes(usermsg.id) === true){
+    document.getElementById("buttons").innerHTML += `<a onclick="deletebot()" class="btn-options">Delete</a>`
+    if(bot.authorid === usermsg.id){
+    document.getElementById("buttons").innerHTML += `<a onclick="edit(${bot.id})" class="btn-options">Edit</a>`
+    }
+    document.getElementById("buttons").innerHTML += `<a href="https://api.hydrogenbots.club/bot-widget/bot-widget-introduction" target="_blank" class="btn-options">Bot Widget</a>`
+    
+    document.getElementById("apitoken").innerHTML += `<code id="apicode">Hidden</code>`
+    document.getElementById("apitoken").innerHTML += `<br /><a onclick="obtaintoken()" style="color: lightblue;" id="newtoken">Generate API Token</a>`
+    document.getElementById("apitoken").innerHTML += `<br /><a onclick="gettoken()" style="color: lightblue;" id="gettoken">Show API Token</a>`
+    document.getElementById("apitoken").innerHTML += `<br /><a onclick="hide()" style="color: lightblue;" id="gettoken">Hide Token</a>`
+    
+    }
+  },})
+  }
+});
+  },
+})
+})
+
+
+$.ajax({
+  type: "GET",
+  url: `/status/${window.location.href.slice(30)}`,
+  success: function(msg) {
+    console.log(msg)
+    if(msg.status === 'offline'){
+    document.getElementById("status").innerHTML = `<a style="color: grey">${msg.status}</a>`
+    }else if(msg.status === 'dnd'){
+      if(msg.state === null){
+    document.getElementById("status").innerHTML = `<a style="color: red">${msg.status}</a>`
+      }else{
+        document.getElementById("status").innerHTML = `<a style="color: red"><strong>${msg.state[0].type}</strong> ${msg.state[0].name}</a>`
+      }
+    }else if(msg.status === 'idle'){
+      if(msg.state === null){
+    document.getElementById("status").innerHTML = `<a style="color: yellow">${msg.status}</a>`
+      }else{
+        document.getElementById("status").innerHTML = `<a style="color: yellow"><strong>${msg.state[0].type}</strong> ${msg.state[0].name}</a>`
+      }
+    }else if(msg.status === 'online'){
+      if(msg.state === null){
+    document.getElementById("status").innerHTML = `<a style="color: green">${msg.status}</a>`
+      }else{
+        document.getElementById("status").innerHTML = `<a style="color: green"><strong>${msg.state[0].type}</strong> ${msg.state[0].name}</a>`
+      }
+    }
+  },
+})
+
+
+  }
+
+  function vote(botid){
+    var proceed = confirm("Are you sure you want to vote for this bot?");
+if (proceed) {
+  //proceed
+  $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bearer ${getCookie("token")}`);
+  },
+  url: "https://discordapp.com/api/users/@me",
+  success: function(usermsg) {
+    $.ajax({
+  type: "POST",
+  url: `/bots/${window.location.href.slice(30)}/upvote/${usermsg.id}`,
+  success: function(msg) {
+      if(msg.error){
+          alert("An error occured! " + msg.error)
+      }else if(msg.success){
+        alert("Success! " + msg.message)
+        window.location.reload()
+      }
+  },
+})
+  },
+})
+} else {
+  //don't proceed
+}
+  }
+
+  function edit(botid){
+    window.location.href = '/bot/' + window.location.href.slice(30) + '/edit'
+  }
+
+  function report(){
+    let reportid = window.location.href.slice(30)
+    var person = prompt("Please enter the reason for the report(e.i. Bot Dm Advertised Me, etc.).");
+  if (person != null) {
+    if(person !== ""){
+      $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bearer ${getCookie("token")}`);
+  },
+  url: "https://discordapp.com/api/users/@me",
+  success: function(usermsg) {
+$.ajax({
+  type: "POST",
+  url: `/report/${reportid}/${person}/${usermsg.id}`,
+  success: function(msg) {
+    if(msg.status === 200){
+      alert("Success! Bot with id " + reportid + " is successfully reported with reason: " + person + "! Our developer will review the report")
+    }else{
+      alert(msg.errorMessage)
+    }
+  },
+})
+  },
+})
+    }else{
+      alert("Please supply a reason for report!");
+    }
+  }
+  }
+
+  function obtaintoken(){
+    $.ajax({
+  type: "POST",
+  url: `/api/v1/obtaintoken/${window.location.href.slice(30)}`,
+  success: function(msg) {
+    if(msg.error === true)return document.getElementById("apicode").innerText = "An Error Occured!"
+      document.getElementById("apicode").innerText = msg.code
+  },
+})
+  }
+
+  function hide(){
+      document.getElementById("apicode").innerText = "Hidden"
+  }
+
+  function gettoken(){
+    $.ajax({
+  type: "POST",
+  url: `/api/v1/gettoken/${window.location.href.slice(30)}`,
+  success: function(msg) {
+    if(msg.error === true)return document.getElementById("apicode").innerText = "An Error Occured!"
+    document.getElementById("apicode").innerText = msg.code
+  },
+})
+  }
+
+  function deletebot(botid){
+    alert(`To delete this bot, please use this command in our server: -delete ${window.location.href.slice(30)}`)
+  }
+
+
+  function getapitoken(){
+
+  }
+</script>
+
+<style>
+  #newtoken {
+    color: blue;
+  }
+  #newtoken:hover {
+    text-decoration: underline;
+  }
+
+  #gettoken {
+    color: blue;
+  }
+
+  #gettoken:hover {
+    text-decoration: underline;
+  }
+
+  #longdescription:hover{
+    transform: translateY(-10px) scale(1.05) translateZ(0px);
+  }
+  #longdescription{
+    
+    transition: 0.3s;
+  }
+</style>
+
+
+   
+<link rel="stylesheet" href="/style.css" />
+
+</html>

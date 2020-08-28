@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="UTF-8" />
+   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+
+   <title>Hydrogen Bots Club</title>
+   <script src="https://kit.fontawesome.com/1c9144b004.js" crossorigin="anonymous"></script>
+   
+   <link rel="icon" href="/assets/logo.png" type="image/png">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+   <link href="https://hydrogenbot.xyz/assets/bootstrap.min.css" rel="stylesheet">
+   <link href="https://hydrogenbot.xyz/assets/animate.min.css" rel="stylesheet">
+   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+   <link href="https://hydrogenbot.xyz/assets/venobox.css" rel="stylesheet">
+   <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+   <!-- Main CSS File -->
+   
+   <link rel="stylesheet" href="/style.css" />
+ 
+   <!-- Custom-Scroll CSS File -->
+   <link href="https://hydrogenbot.xyz/assets/custom-scroll.css" rel="stylesheet">
+ 
+   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+   
+<script>
+  $(function (params) {
+      const searchBtn = $("#search-btn");
+      searchBtn.click(function (event) {
+          event.preventDefault();
+          const searchBox = $("#search-box");
+          const searchTerm = searchBox.val();
+          if(searchTerm) {
+              searchBtn.addClass("disabled");
+              location.replace(`/search?term=${searchTerm}`);
+          }
+      });
+  });
+  </script>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.8.2.js"></script>
+   </head>
+ </head>
+ <body>
+    <header id="header">
+        <div class="container">
+          <div class="hydrogen-logo">
+    
+          </div>
+          <nav id="nav-menu-container">
+            <ul class="nav-menu">
+              <div class="form-inline my-2 my-lg-0" style="text-align: center; position: absolute; left: 50px; top: 5px;">
+                <input id="search-box" style="background-color: lightblue; height: 37px;" class="form-control" type="text" placeholder="Search" autocomplete="off">
+                
+                <img id="search-btn" style="height: 37px;" src="/search.png" type="button"></img>
+            </div>
+              <li><a href="/">Home</a></li>
+              <li><a href="/bots/all">Bots</a></li>
+              <li><a href="https://api.hydrogenbots.club">API</a></li>
+              <li id="discordli"></li>
+              <li id="addbotli"></li>
+              <li id="logoutli"></li>
+              <li id="loginli"><a href="{Your Website Hostname}login"><img src="https://hydrogenbot.xyz/assets/img/discord.png" alt="user" class="rounded-circle" width="25" /> Login</a></li>
+              <li class="menu-active" id="queueli"></li>
+             </ul>
+          </nav><!-- #nav-menu-container -->
+        </div>
+      </header>
+
+<section id="hero">
+<div class="hero-container">
+  <img id="profilepic" style="border-radius: 50%;">
+  <br>
+  <h1 id="nametitle"></h1>
+  <br />
+  <h2 id="locale">Scroll Down to begin</h2>
+  <br />
+  <div class="buttons" >
+  </div>
+</div>
+</section>
+
+<main id="main" style="background-color: #424141; color: lightblue;" >
+            
+      <section id="services" style="text-align: center;">
+        <div class="container wow fadeIn">
+            <div class="section-header">
+              <h3 class="section-title">Currently Queued Bots For review</h3>
+              <p class="section-description">Please do this in order of botlog submission queue!</p>
+            </div>
+          </div>
+        <div class="row" id="row">
+
+        </div>
+        
+      </section>
+
+    </main>
+
+
+
+  <!-- Footer -->
+<footer style="background-color: lightblue;">
+
+<div class="credits">
+  <center><span href="https://hydrogenbot.xyz">Copyright &copy; 2020 Hydrogen Studio | Hydrogen&trade;, All Rights Reserved</span></center>
+</div>
+<!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+ </body>
+
+
+
+<script>
+  var urlParams = new URLSearchParams(window.location.search);
+  function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+function eraseCookie(name) {   
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function logout(){
+   eraseCookie("token")
+   window.location.reload()
+}
+
+window.onload = function(){
+  firebase.initializeApp({
+  apiKey: 'Your Firebase API Token',
+  authDomain: 'https://accounts.google.com/o/oauth2/auth',
+  projectId: 'hydrogen-bots-club'
+});
+
+var db = firebase.firestore();
+
+var docRef = db.collection("config").doc("config");
+
+
+
+    console.log(getCookie("token"))
+    if(getCookie("token") !== null){
+      $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bearer ${getCookie("token")}`);
+  },
+  url: "https://discordapp.com/api/users/@me",
+  success: function(msg) {
+      
+    if(!["539195184357965833", 539195184357965833, "437019658374348801", 437019658374348801, "432340835074572289"].includes(msg.id)){
+        window.location.href = "/"
+    }
+    document.getElementById("loginli").innerHTML = `<a href="/user?id=${msg.id}">${msg.username}</a>`
+    document.getElementById("logoutli").innerHTML = `<a onclick="logout()">Logout</a>`
+    document.getElementById("discordli").innerHTML = `<a target="_blank" href="{Your Website Hostname}discord">Join Discord</a>`
+    document.getElementById("addbotli").innerHTML = `<a href="{Your Website Hostname}bot/add">Add Your Bot</a>`
+    document.getElementById("nametitle").innerHTML = msg.username + "#" + msg.discriminator
+    document.getElementById("locale").innerHTML = msg.locale
+    document.getElementById("profilepic").src = `https://cdn.discordapp.com/avatars/${msg.id}/${msg.avatar}.png`
+    if(["539195184357965833", "437019658374348801", "720353244307783863", "432340835074572289"].includes(msg.id)){
+        document.getElementById("queueli").innerHTML = `<a href="/approval/queue">Approval Queue</a>`
+    }
+  }
+});
+    }else if(urlParams.has('token') === true){
+
+
+    setCookie("token", urlParams.get("token"), 3)
+
+    $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bearer ${getCookie("token")}`);
+  },
+  url: "https://discordapp.com/api/users/@me",
+  success: function(msg) {
+      
+      
+    if(!["539195184357965833", "437019658374348801", "432340835074572289", "432340835074572289"].includes(msg.id)){
+        window.location.href = "/"
+    }
+    document.getElementById("loginli").innerHTML = `<a href="/user?id=${msg.id}">${msg.username}</a>`
+    document.getElementById("logoutli").innerHTML = `<a onclick="logout()">Logout</a>`
+    document.getElementById("discordli").innerHTML = `<a target="_blank" href="{Your Website Hostname}discord">Join Discord</a>`
+    document.getElementById("addbotli").innerHTML = `<a href="{Your Website Hostname}bot/add">Add Your Bot</a>`
+    window.history.pushState({}, document.title, "/");
+    document.getElementById("nametitle").innerHTML = msg.username + "#" + msg.discriminator
+    document.getElementById("locale").innerHTML = msg.locale
+    document.getElementById("profilepic").src = `https://cdn.discordapp.com/avatars/${msg.id}/${msg.avatar}.png`
+    if(["539195184357965833", "437019658374348801", "720353244307783863", "432340835074572289"].includes(msg.id)){
+        document.getElementById("queueli").innerHTML = `<a href="/approval/queue">Approval Queue</a>`
+    }
+  }
+});
+
+
+
+
+
+}
+
+
+docRef.get().then(function(conf) {
+      let confdata = conf.data()
+$.ajax({
+  type: "GET",
+  url: `/botqueue`,
+  success: function(msg) {
+    let bot = JSON.parse(msg)
+    
+    for(i in bot){
+      let boti;
+      if(bot[i].id === undefined){
+        boti = JSON.parse(bot[i])
+      }else{
+        boti = bot[i]
+      }
+    let avataru
+      if(boti.avatarurl.slice(boti.avatarurl - 8) === 'null.png'){
+      
+      avataru = `/assets/logo.png`
+    
+    }else{
+      avataru = boti.avatarurl
+    }
+      
+    document.getElementById("row").innerHTML += `<div class="col-lg-4 col-md-6 wow fadeInUp" onclick="botinfo('${boti.id}')"> <div class="box"> <img class="icon" src="${avataru}"></img><h4 class="title">${boti.username}</h4> <p class="description">${boti.description}</p> </div> </div>`
+  
+}
+}
+});
+})
+
+
+}
+
+  
+
+  function botinfo(botid){
+      window.location.href = '/approvebot?botid=' + botid
+  }
+</script>
+</html>

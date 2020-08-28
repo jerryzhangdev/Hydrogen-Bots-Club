@@ -1,0 +1,108 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://deno.land/fonts/inter/inter.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"
+        integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
+
+    <title>Upcoming Discord Bot List</title>
+    <link rel="icon" href="/assets/logo.png" type="image/png">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+    <!-- Initialize firebase, etc. The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/7.15.5/firebase-app.js"></script>
+    <script src="/__/firebase/7.15.5/firebase-analytics.js"></script>
+    <script src="/__/firebase/init.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Primary Meta Tags -->
+    <meta name="theme-color" content="#5E78DF" />
+<meta name="title" content="Hydrogen Bots CLub">
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+
+</head>
+<img src="https://discordlist.gg/top.PNG" class="top"/>
+<img src="https://discordlist.gg/bottom.PNG" class="bottom"/>
+<body class="min-w-full w-full">
+    <div class="container min-w-full w-full relative mx-auto space-x-0 md:space-x-24 overflow-hidden flex flex-col md:flex-row items-center justify-center h-screen">
+        <div class="left w-1/3">
+            <img src="https://cdn.hydrogenbot.xyz/MhZiJoaj.png" class="object-cover invisible md:visible rounded-md shadow"/>
+        </div>
+        <div class="right p-4 md:p-0 w-full md:w-1/3">
+            <div class="text-center space-y-5 text-white text-xl">
+                <a>Join Our Mailing List to get latest updates on the bot list!</a>
+                <form id="sender-subscribe" action="https://app.sender.net/forms/sender_subscription/15571/c88fe365" method="POST">
+                    <input name="email" type="email"class="email_type" id="email" data-label="Email" placeholder="Email">
+                    <br>
+                    <input type="submit" value="Submit" style="width: auto;">
+                  </form>
+            </div>
+            <img src="https://cdn.hydrogenbot.xyz/MhZiJoaj.png" class="visible md:hidden mt-5 object-cover rounded-md shadow"/>
+        </div>
+    </div>
+</body>
+<style>
+
+input[type=text], select {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type=submit] {
+    width: 25%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+
+    body {
+        font-family: Inter var, system-ui, -apple-system, BlinkMacSystemFont,
+Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+        background-color: #161a29;
+    }
+
+    .bg-blurple-fade-strong {
+        background: linear-gradient(45deg, #5b4dd8, #67a2cc);
+    }
+
+    @font-face {
+        font-family: 'gilroy-extrabold';
+        src: url('gilroy-extrabold-webfont.woff2') format('woff2'),
+            url('gilroy-extrabold-webfont.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .bg-discord-main {
+        background: #7a8dd6;
+    }
+
+    .top {
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    .bottom {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .rounded-me {
+        border-radius: 20px;
+    }
+</style>
+</head>

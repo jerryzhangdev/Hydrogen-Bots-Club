@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="UTF-8" />
+   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+
+   <title>Hydrogen Bots Club</title>
+   <script src="https://kit.fontawesome.com/1c9144b004.js" crossorigin="anonymous"></script>
+   
+   <link rel="icon" href="/assets/logo.png" type="image/png">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+   <link href="https://hydrogenbot.xyz/assets/bootstrap.min.css" rel="stylesheet">
+   <link href="https://hydrogenbot.xyz/assets/animate.min.css" rel="stylesheet">
+   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+   <link href="https://hydrogenbot.xyz/assets/venobox.css" rel="stylesheet">
+   <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+   <!-- Main CSS File -->
+   
+   <link rel="stylesheet" href="/style.css" />
+ 
+   <!-- Custom-Scroll CSS File -->
+   <link href="https://hydrogenbot.xyz/assets/custom-scroll.css" rel="stylesheet">
+ 
+   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+   
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.8.2.js"></script>
+   </head>
+ </head>
+ <body>
+    <header id="header">
+        <div class="container">
+          <div class="hydrogen-logo">
+    
+          </div>
+          <nav id="nav-menu-container">
+            <ul class="nav-menu">
+              <div class="form-inline my-2 my-lg-0" style="text-align: center; position: absolute; left: 50px; top: 5px;">
+                <input id="search-box" style="background-color: lightblue; height: 37px;" class="form-control" type="text" placeholder="Search" autocomplete="off">
+                
+                <img id="search-btn" style="height: 37px;" src="/search.png" type="button"></img>
+            </div>
+              <li><a href="/">Home</a></li>
+              <li><a href="/bots/all">Bots</a></li>
+              <li><a href="https://api.hydrogenbots.club">API</a></li>
+              <li id="discordli"></li>
+              <li id="addbotli"></li>
+              <li id="logoutli"></li>
+              <li class="menu-active" id="loginli"><a href="{Your Website Hostname}login"><img src="https://hydrogenbot.xyz/assets/img/discord.png" alt="user" class="rounded-circle" width="25" /> Login</a></li>
+              <li id="queueli"></li>
+             </ul>
+          </nav><!-- #nav-menu-container -->
+        </div>
+      </header>
+
+      
+<script>
+  $(function (params) {
+      const searchBtn = $("#search-btn");
+      searchBtn.click(function (event) {
+          event.preventDefault();
+          const searchBox = $("#search-box");
+          const searchTerm = searchBox.val();
+          if(searchTerm) {
+              searchBtn.addClass("disabled");
+              location.replace(`/search?term=${searchTerm}`);
+          }
+      });
+  });
+  </script>
+
+<section id="hero">
+<div class="hero-container">
+  <img id="profilepic" style="border-radius: 50%;" width="85px" height="85px">
+  <br>
+  <h1 id="nametitle"></h1>
+  <br />
+  <h3 id="status"></h3>
+  <br />
+  <h2 id="locale">Scroll Down to see the user's bots</h2>
+  <br />
+  <div class="buttons" >
+  </div>
+  <br>
+  <br>
+<div class="buttons" id="apitoken">
+  
+</div>
+</div>
+</section>
+
+<main id="main" style="background-color: #424141; color: lightblue;" >
+            
+      <section id="services" style="text-align: center;">
+        <div class="container wow fadeIn">
+            <div class="section-header">
+              <h3 class="section-title">This user's bots</h3>
+              <p class="section-description">The bots this user have</p>
+              <br />
+            </div>
+          </div>
+        <div class="row" id="row">
+
+        </div>
+        
+      </section>
+
+    </main>
+
+
+    <main id="main" style="background-color: #424141; color: lightblue;" >
+            
+        <section id="services" style="text-align: center;">
+          <div class="container wow fadeIn">
+              <div class="section-header">
+                <h3 class="section-title">This user's bots that are still in the approval queue</h3>
+              </div>
+            </div>
+          <div class="row" id="approvalrow">
+  
+          </div>
+          
+        </section>
+  
+      </main>
+  <!-- Footer -->
+<footer style="background-color: lightblue;">
+
+<div class="credits">
+  <center><span href="https://hydrogenbot.xyz">Copyright &copy; 2020 Hydrogen Studio | Hydrogen&trade;, All Rights Reserved</span></center>
+</div>
+<!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+ </body>
+
+
+
+<script>
+    firebase.initializeApp({
+  apiKey: 'Your Firebase API Token',
+  authDomain: 'https://accounts.google.com/o/oauth2/auth',
+  projectId: 'hydrogen-bots-club'
+});
+
+var db = firebase.firestore();
+
+var docRef = db.collection("config").doc("config");
+  var urlParams = new URLSearchParams(window.location.search);
+  function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+function eraseCookie(name) {   
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function logout(){
+   eraseCookie("token")
+   window.location.reload()
+}
+
+window.onload = function(){
+
+
+  $.ajax({
+  type: "GET",
+  url: `/status/${urlParams.get("id")}`,
+  success: function(msg) {
+    console.log(msg)
+    if(msg.status === 'offline'){
+    document.getElementById("status").innerHTML = `<a style="color: grey">${msg.status}</a>`
+    }else if(msg.status === 'dnd'){
+      if(msg.state === null){
+    document.getElementById("status").innerHTML = `<a style="color: red">${msg.status}</a>`
+      }else{
+        if(msg.state[0].emoji === null){
+        document.getElementById("status").innerHTML = `<a style="color: red">${msg.state[0].state}</a>`
+        }else if(msg.state[0].emoji !== null){
+        document.getElementById("status").innerHTML = `<a style="color: red">${msg.state[0].emoji.name} ${msg.state[0].state}</a>`
+        }
+      }
+    }else if(msg.status === 'idle'){
+      if(msg.state === null){
+    document.getElementById("status").innerHTML = `<a style="color: yellow">${msg.status}</a>`
+      }else{
+        if(msg.state[0].emoji === null){
+        document.getElementById("status").innerHTML = `<a style="color: yellow">${msg.state[0].state}</a>`
+        }else if(msg.state[0].emoji !== null){
+        document.getElementById("status").innerHTML = `<a style="color: yellow">${msg.state[0].emoji.name} ${msg.state[0].state}</a>`
+        }
+      }
+    }else if(msg.status === 'online'){
+      if(msg.state === null){
+    document.getElementById("status").innerHTML = `<a style="color: green">${msg.status}</a>`
+      }else{
+        if(msg.state[0].emoji === null){
+        document.getElementById("status").innerHTML = `<a style="color: green">${msg.state[0].state}</a>`
+        }else if(msg.state[0].emoji !== null){
+        document.getElementById("status").innerHTML = `<a style="color: green">${msg.state[0].emoji.name} ${msg.state[0].state}</a>`
+        }
+      }
+    }
+  },
+})
+
+
+
+
+    docRef.get().then(function(conf) {
+      
+      let confdata = conf.data()
+      if(getCookie("token") !== null && getCookie("token") !== ''){
+      $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bearer ${getCookie("token")}`);
+  },
+  url: "https://discordapp.com/api/users/@me",
+  success: function(msg) {
+    document.getElementById("loginli").innerHTML = `<a href="/user?id=${msg.id}">${msg.username}</a>`
+    document.getElementById("logoutli").innerHTML = `<a onclick="logout()">Logout</a>`
+    document.getElementById("discordli").innerHTML = `<a target="_blank" href="{Your Website Hostname}discord">Join Discord</a>`
+    document.getElementById("addbotli").innerHTML = `<a href="{Your Website Hostname}bot/add">Add Your Bot</a>`
+  }
+});
+
+
+  
+
+    $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bot ${confdata.token}`);
+  },
+  url: "https://discordapp.com/api/users/" + urlParams.get("id"),
+  success: function(msg) {
+    document.getElementById("loginli").innerHTML = `<a href="/user?id=${msg.id}">${msg.username}</a>`
+    document.getElementById("logoutli").innerHTML = `<a onclick="logout()">Logout</a>`
+    document.getElementById("discordli").innerHTML = `<a target="_blank" href="{Your Website Hostname}discord">Join Discord</a>`
+    document.getElementById("addbotli").innerHTML = `<a href="{Your Website Hostname}bot/add">Add Your Bot</a>`
+    document.getElementById("nametitle").innerHTML = msg.username + "#" + msg.discriminator
+    let avataru
+      if(msg.avatar === null){
+          avataru = '/assets/logo.png'
+        }else{
+          avataru = `https://cdn.discordapp.com/avatars/${msg.id}/${msg.avatar}.png`
+        }
+
+    document.getElementById("profilepic").src = avataru
+    if(["539195184357965833", 539195184357965833, "437019658374348801", 437019658374348801].includes(msg.id)){
+        document.getElementById("queueli").innerHTML = `<a href="/approval/queue">Approval Queue</a>`
+    }
+    if(["539195184357965833", "437019658374348801", "432340835074572289", urlParams.get("id")].includes(msg.id) === true){
+    document.getElementById("apitoken").innerHTML += `<code id="apicode">Hidden</code>`
+    document.getElementById("apitoken").innerHTML += `<br /><a onclick="obtaintoken()" style="color: lightblue;" id="newtoken">Generate API Token</a>`
+    document.getElementById("apitoken").innerHTML += `<br /><a onclick="gettoken()" style="color: lightblue;" id="gettoken">Show API Token</a>`
+    document.getElementById("apitoken").innerHTML += `<br /><a onclick="hide()" style="color: lightblue;" id="gettoken">Hide Token</a>`
+    }
+  }
+  })
+}else if(urlParams.has("token") === true){
+  $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bearer ${getCookie("token")}`);
+  },
+  url: "https://discordapp.com/api/users/@me",
+  success: function(msg) {
+    document.getElementById("loginli").innerHTML = `<a href="/user?id=${msg.id}">${msg.username}</a>`
+    document.getElementById("logoutli").innerHTML = `<a onclick="logout()">Logout</a>`
+    document.getElementById("discordli").innerHTML = `<a target="_blank" href="{Your Website Hostname}discord">Join Discord</a>`
+    document.getElementById("addbotli").innerHTML = `<a href="{Your Website Hostname}bot/add">Add Your Bot</a>`
+  }
+});
+
+
+    setCookie("token", urlParams.get("token"), 3)
+
+    $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bot ${urlParams.get("token")}`);
+  },
+  url: "https://discordapp.com/api/users/" + urlParams.get("id"),
+  success: function(msg) {
+    document.getElementById("loginli").innerHTML = `<a href="/user?id=${msg.id}">${msg.username}</a>`
+    document.getElementById("logoutli").innerHTML = `<a onclick="logout()">Logout</a>`
+    document.getElementById("discordli").innerHTML = `<a target="_blank" href="{Your Website Hostname}discord">Join Discord</a>`
+    document.getElementById("addbotli").innerHTML = `<a href="{Your Website Hostname}bot/add">Add Your Bot</a>`
+    document.getElementById("nametitle").innerHTML = msg.username + "#" + msg.discriminator
+    let avataru
+      if(msg.avatar === null){
+          avataru = '/assets/logo.png'
+        }else{
+          avataru = `https://cdn.discordapp.com/avatars/${msg.id}/${msg.avatar}.png`
+        }
+
+    document.getElementById("profilepic").src = avataru
+    if(["539195184357965833", 539195184357965833, "437019658374348801", 437019658374348801].includes(msg.id)){
+        document.getElementById("queueli").innerHTML = `<a href="/approval/queue">Approval Queue</a>`
+    }
+    if(["539195184357965833", "437019658374348801", "432340835074572289", urlParams.get("id")].includes(msg.id) === true){
+    document.getElementById("apitoken").innerHTML += `<code id="apicode">Hidden</code>`
+    document.getElementById("apitoken").innerHTML += `<br /><a onclick="obtaintoken()" style="color: lightblue;" id="newtoken">Generate API Token</a>`
+    document.getElementById("apitoken").innerHTML += `<br /><a onclick="gettoken()" style="color: lightblue;" id="gettoken">Show API Token</a>`
+    document.getElementById("apitoken").innerHTML += `<br /><a onclick="hide()" style="color: lightblue;" id="gettoken">Hide Token</a>`
+    }
+  }
+  })
+}
+    })
+  
+
+
+
+
+
+
+
+docRef.get().then(function(conf) {
+  let confdata = conf.data()
+$.ajax({
+  type: "GET",
+  url: `/bots`,
+  success: function(msg) {
+    for(i in JSON.parse(msg)){
+      let bot = JSON.parse(msg)[i]
+      let boti;
+      if(bot.id === undefined){
+        boti = JSON.parse(bot)
+      }else{
+        boti = bot
+      }
+        
+    $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bot ${confdata.token}`);
+  },
+  url: "https://discordapp.com/api/users/" + urlParams.get("id"),
+  success: function(userbot) {
+         
+        if(userbot.id === bot.authorid){
+          let avataru
+        if(bot.avatarurl.slice(bot.avatarurl - 8) === 'null.png'){
+      
+      avataru = `/assets/logo.png`
+    
+    }else{
+      avataru = bot.avatarurl
+    }
+      
+        document.getElementById("row").innerHTML += `<div onclick="location.href = '/bot/${boti.id}';" class="col-lg-4 col-md-6 wow fadeInUp"> <div class="box"> <img class="icon" src="${avataru}"></img><h4 class="title">${boti.username}</h4> <p class="description">${boti.description}</p> </div> </div>`
+    
+    
+    
+        }
+      },
+})
+    }
+}
+});
+});
+docRef.get().then(function(conf) {
+  let confdata = conf.data()
+$.ajax({
+  type: "GET",
+  url: `/botqueue`,
+  success: function(msg) {
+    for(i in JSON.parse(msg)){
+      let bot = JSON.parse(msg)[i]
+      let boti;
+      if(bot.id === undefined){
+        boti = JSON.parse(bot)
+      }else{
+        boti = bot
+      }
+        
+    $.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Authorization", `Bearer ${getCookie("token")}`);
+  },
+  url: "https://discordapp.com/api/users/@me",
+  success: function(userbot) {
+         
+        if(userbot.id === bot.authorid){
+          let avataru
+        if(bot.avatarurl.slice(bot.avatarurl - 8) === 'null.png'){
+      
+      avataru = `/assets/logo.png`
+    
+    }else{
+      avataru = bot.avatarurl
+    }
+      
+        document.getElementById("approvalrow").innerHTML += `<div onclick="location.href = '/bot/${boti.id}';" class="col-lg-4 col-md-6 wow fadeInUp"> <div class="box"> <img class="icon" src="${avataru}"></img><h4 class="title">${boti.username}</h4> <p class="description">${boti.description}</p> </div> </div>`
+    
+    
+    
+        }
+      },
+})
+    }
+}
+});
+});
+
+}
+
+
+  
+function obtaintoken(){
+    $.ajax({
+  type: "POST",
+  url: `/userapitoken/${urlParams.get("id")}`,
+  success: function(msg) {
+    if(msg.error === true)return document.getElementById("apicode").innerText = "An Error Occured!"
+      document.getElementById("apicode").innerText = msg.code
+  },
+})
+  }
+
+  function hide(){
+      document.getElementById("apicode").innerText = "Hidden"
+  }
+
+  function gettoken(){
+    $.ajax({
+  type: "POST",
+  url: `/getusertoken/${urlParams.get("id")}`,
+  success: function(msg) {
+    if(msg.error === true)return document.getElementById("apicode").innerText = "An Error Occured!"
+    document.getElementById("apicode").innerText = msg.code
+  },
+})
+  }
+
+  function botinfo(botid){
+      window.location.href = '/bot/' + botid
+  }
+</script>
+
+<style>
+  #newtoken {
+    color: blue;
+  }
+  #newtoken:hover {
+    text-decoration: underline;
+  }
+
+  #gettoken {
+    color: blue;
+  }
+
+  #gettoken:hover {
+    text-decoration: underline;
+  }
+</style>
+</html>
