@@ -14,6 +14,7 @@
  - Bot Logging channel
  - Authorization token system
  - quick.db as database of bots, and firebase as database for important information.
+ - Widget Support
 
  ## Replace Params
 
