@@ -253,17 +253,12 @@ docRef.get().then(function(conf) {
 $.ajax({
   type: "GET",
   beforeSend: function(request) {
-    request.setRequestHeader("Authorization", `Bot ${confdata.token}`);
+    request.setRequestHeader("Authorization", `p2E8hqidDOxxVV545uKdn9qp`);
   },
-  url: "https://discordapp.com/api/users/" + window.location.href.slice(30),
+  url: "https://hydrogenbots.club/api/v1/bots/" + window.location.href.slice(30),
   success: function(userbot) {
-
-$.ajax({
-  type: "GET",
-  url: `/bots/${window.location.href.slice(30)}`,
-  success: function(msg) {
-    if(msg === null)return window.location.href = '/'
-      let bot = msg;
+    if(userbot.error === true)return window.location.href = '/'
+      let bot = userbot;
 
       
     var converter = new showdown.Converter()
@@ -274,7 +269,7 @@ $.ajax({
       if(userbot.avatar === null){
           avataru = '/assets/logo.png'
         }else{
-          avataru = `https://cdn.discordapp.com/avatars/${userbot.id}/${userbot.avatar}.png`
+          avataru = userbot.avatarurl
         }
       document.getElementById("profilepic").src = avataru
       document.getElementById("nametitle").innerHTML = userbot.username + "#" + userbot.discriminator
@@ -295,7 +290,7 @@ $.ajax({
     document.getElementById("sitenamehead").content = `${usermsg.username}`
     document.getElementById("authorhead").content = `${usermsg.username}`
     document.getElementById("iconhead").content = `https://cdn.discordapp.com/avatars/${userbot.id}/${userbot.avatar}.png`
-    document.getElementById("urlhead").content = `{Your Website Hostname}bot/${userbot.id}`
+    document.getElementById("urlhead").content = `https://hydrogenbots.club/bot/${userbot.id}`
     document.getElementById("buttons").innerHTML += `<a target="_blank" href="${bot.invite}" class="btn-options">Invite ${userbot.username}</a>`
       if(bot.upvoted === undefined){
         document.getElementById("buttons").innerHTML += `<a class="btn-options">Upvotes: 0</a>`
@@ -343,8 +338,6 @@ $.ajax({
   },})
   }
 });
-  },
-})
 })
 
 
